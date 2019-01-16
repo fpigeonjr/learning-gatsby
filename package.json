@@ -22,5 +22,9 @@
   },
   "bugs": {
     "url": "https://github.com/gatsbyjs/gatsby/issues"
+  },
+  "devDependencies": {
+    "gatsby-source-filesystem": "^2.0.1-rc.6",
+    "gatsby-transformer-remark": "^2.1.1-rc.5"
   }
 }
