@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../components/Header";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 
 const Layout = ({ data }) => {
   const { edges } = data.allMarkdownRemark;
@@ -20,7 +20,7 @@ const Layout = ({ data }) => {
           const { frontmatter } = edge.node;
           return (
             <div key={frontmatter.path} style={{ marginBottom: "1rem" }}>
-              {frontmatter.title}
+              <Link to={frontmatter.path}>{frontmatter.title}</Link>
             </div>
           );
         })}
