@@ -1,49 +1,49 @@
 import React from "react";
-import { StaticQuery, graphql } from "gatsby";
+import Header from "../components/Header";
+import { graphql } from "gatsby";
 
-const TitleAndDescription = ({ data }) => {
-  const title = data.site.siteMetadata.title;
-  const description = data.site.siteMetadata.description;
-
+const Layout = ({ data }) => {
+  const { edges } = data.allMarkdownRemark;
+  console.log(edges);
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        fontFamily: "avenir"
-      }}
-    >
-      <h2 style={{ marginBottom: 0 }}>{title}</h2>
-      <p style={{ marginTop: 0, opacity: 0.5 }}>{description}</p>
+    <div>
+      <Header />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          fontFamily: "avenir"
+        }}
+      >
+        {edges.map(edge => {
+          const { frontmatter } = edge.node;
+          return (
+            <div key={frontmatter.path} style={{ marginBottom: "1rem" }}>
+              {frontmatter.title}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
 
-const Header = () => (
-  <StaticQuery
-    query={graphql`
-      query {
-        site {
-          siteMetadata {
+export const query = graphql`
+  query HomepageQuery {
+    allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
+      edges {
+        node {
+          frontmatter {
             title
-            description
+            path
+            date
+            excerpt
           }
         }
       }
-    `}
-    render={data => (
-      <div>
-        <TitleAndDescription data={data} />
-      </div>
-    )}
-  />
-);
-
-const Layout = () => (
-  <div>
-    <Header />
-  </div>
-);
+    }
+  }
+`;
 
 export default Layout;
